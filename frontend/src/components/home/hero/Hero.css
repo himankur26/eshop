@@ -1,0 +1,10 @@
+.bg-hero{
+    background-image: url("https://mb-demo1.myshopify.com/cdn/shop/files/marbo-lyfestyle-slider-02.jpg?v=1699247638");
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width:100%;
+    margin: 0;
+    padding: 0;
+}
