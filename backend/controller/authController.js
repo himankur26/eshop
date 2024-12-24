@@ -1,3 +1,4 @@
+const { response } = require('express')
 const db = require('../modal/user.modal')
 const bcrypt = require ('bcrypt')
 module.exports = {
@@ -68,5 +69,30 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+    },
+//current user data logic
+user:async (req,res) => {
+    try {
+        const userData = req.user
+        console.log(userData)
+        return res.status(200).json({userData})
+    } catch (error) {
+        console.log(error)
     }
+},
+//for getting single user or getting user by id
+getSingleUser:async (req,res) => {
+    try {
+        const userId = req.params._id;
+        const user = await db.findOne(userId)
+        if (!user) {
+            return res.status(404).json({message:"user not found"})  
+        }
+        console.log(user)
+        return res.status(200).json({user})  
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 }

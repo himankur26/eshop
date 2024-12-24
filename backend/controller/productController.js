@@ -39,5 +39,38 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+    },
+getProducts: async (req,res) => {
+    try {
+        const product = await db.find({})
+        res.status(200).json({
+            status:200,
+            success:true,
+            message:"products fetched",
+            body:product
+
+        })
+    } catch (error) {
+        console.log(error,"failed fetching products")
     }
+},
+singleProduct: async (req,res) => {
+    try {
+        const product = await db.findById(req.params.id)
+        if (!product) {
+            return res.status(404).json({
+                message:"product not found"
+            })
+        }
+        res.status(200).json({
+            status:200,
+            success:true,
+            message:"product fetched",
+            body:product
+
+        })
+    } catch (error) {
+        console.log(error,"failed fetching products")
+    }
+}
 }

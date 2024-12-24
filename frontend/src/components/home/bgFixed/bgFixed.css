@@ -1,0 +1,23 @@
+.fixed-bg{
+    background-image: url(https://websitedemos.net/custom-printing-02/wp-content/uploads/sites/459/2020/01/banner-02.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    background-attachment: fixed;
+}
+.fixed-btn{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-top: 13px;
+    padding-right: 40px;
+    padding-bottom: 13px;
+    padding-left: 40px;
+    border-color: #ff5151;
+    background-color: #ff5151;
+    font-size: 1rem;
+    color:white
+
+}

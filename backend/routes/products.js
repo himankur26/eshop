@@ -12,4 +12,9 @@ router.post(
     ]),
     productController.createProduct
   );
+  router.get('/getProducts',productController.getProducts)
+  router.get('/singleProduct/:id',productController.singleProduct)
+
+
+
 module.exports = router;

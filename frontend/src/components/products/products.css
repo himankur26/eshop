@@ -1,0 +1,13 @@
+.cardtitle{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.productcard{
+    overflow: Hidden;
+
+}
+.productimg{
+    height :300px ;
+    object-fit: contain;
+}

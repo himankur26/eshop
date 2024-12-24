@@ -1,54 +1,165 @@
-//import React from 'react'
-import {useForm} from 'react-hook-form' 
+import { useState } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Addproduct() {
-  const{register, handleSubmit,reset,formState:{errors}}=useForm()
-  const onSubmit = (data)=>{
-    console.log(data)
-  }
+  const [product, setProduct] = useState({
+    productName: '',
+    originalPrice: '',
+    discountPrice: '',
+    productDescription: '',
+    productQuantity: '',
+    productCategory: '',
+    productBrand: '',
+    productRating: ''
+  });
+  const [productImage, setProductImage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct({
+      ...product,
+      [name]: value
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setProductImage(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    for (const key in product) {
+      formData.append(key, product[key]);
+    }
+    if (productImage) {
+      formData.append('productImage', productImage);
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5125/products/createProduct', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      alert ("product added")
+      console.log("Product Added:", response.data);
+      // Reset form fields
+      setProduct({
+        productName: '',
+        originalPrice: '',
+        discountPrice: '',
+        productDescription: '',
+        productQuantity: '',
+        productCategory: '',
+        productBrand: '',
+        productRating: ''
+      });
+      setProductImage(null);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
   return (
-    <div className='container'>
-    <form onSubmit={handleSubmit(onSubmit)}>
-    <input type='text' id= 'productname' placeholder='produt name' 
-                className={`form-control ${errors.productname ? "is-invalid":"" }`}
-                {...register("productname",{required:"product name is required"})}
-                />
-    <input type='text' id= 'originalprice' placeholder='original price' 
-                className={`form-control ${errors.originalprice ? "is-invalid":"" }`}
-                {...register("originalprice",{required:"originalprice is required"})}
-                />
-    <input type='text' id= 'discount' placeholder='discount price' 
-                className={`form-control ${errors.discount ? "is-invalid":"" }`}
-                {...register("discount",)}
-                />
-    <input type='text' id= 'productdescription' placeholder='product description' 
-                className={`form-control ${errors.productdescription ? "is-invalid":"" }`}
-                {...register("productdescription",{required:"productdescription is required"})}
-                />
-    <input type='text' id= 'quantity' placeholder='product quantity' 
-                className={`form-control ${errors.quantity ? "is-invalid":"" }`}
-                {...register("quantity",{required:"quantity is required"})}
-                />
-    <input type='text' id= 'category' placeholder='product category' 
-                className={`form-control ${errors.category ? "is-invalid":"" }`}
-                {...register("category",{required:"category is required"})}
-                />
-    <input type='text' id= 'brand' placeholder='product brand' 
-                className={`form-control ${errors.brand ? "is-invalid":"" }`}
-                {...register("brand",{required:"brand is required"})}
-                />
-    <input type='text' id= 'rating' placeholder='product rating' 
-                className={`form-control ${errors.rating ? "is-invalid":"" }`}
-                {...register("rating",)}
-                />
-    <input type='text' id= 'image' placeholder='product image' 
-                className={`form-control ${errors.image ? "is-invalid":"" }`}
-                {...register("image",{required:"image is required"})}
-                />
-    </form>
-      
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Add Product</h2>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="form-group">
+          <label>Product Name</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            name="productName" 
+            value={product.productName} 
+            onChange={handleChange} 
+            placeholder="Enter product name" 
+          />
+        </div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label>Original Price</label>
+            <input 
+              type="number" 
+              className="form-control" 
+              name="originalPrice" 
+              value={product.originalPrice} 
+              onChange={handleChange} 
+              placeholder="Enter original price" 
+            />
+          </div>
+          <div className="form-group col-md-6">
+            <label>Discount Price</label>
+            <input 
+              type="number" 
+              className="form-control" 
+              name="discountPrice" 
+              value={product.discountPrice} 
+              onChange={handleChange} 
+              placeholder="Enter discount price" 
+            />
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Product Description</label>
+          <textarea 
+            className="form-control" 
+            name="productDescription" 
+            value={product.productDescription} 
+            onChange={handleChange} 
+            placeholder="Enter product description" 
+          />
+        </div>
+        <div className="form-group">
+          <label>Product Quantity</label>
+          <input 
+            type="number" 
+            className="form-control" 
+            name="productQuantity" 
+            value={product.productQuantity} 
+            onChange={handleChange} 
+            placeholder="Enter quantity" 
+          />
+        </div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label>Product Category</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              name="productCategory" 
+              value={product.productCategory} 
+              onChange={handleChange} 
+              placeholder="Enter category" 
+            />
+          </div>
+          <div className="form-group col-md-6">
+            <label>Product Brand</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              name="productBrand" 
+              value={product.productBrand} 
+              onChange={handleChange} 
+              placeholder="Enter brand" 
+            />
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Product Image</label>
+          <input 
+            type="file" 
+            className="form-control" 
+            onChange={handleFileChange} 
+          />
+        </div>
+        <button type="submit" className="btn btn-primary btn-block">Add Product</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default Addproduct
+export default Addproduct;

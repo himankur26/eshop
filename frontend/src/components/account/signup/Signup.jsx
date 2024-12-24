@@ -2,7 +2,9 @@
 import {useForm} from 'react-hook-Form'
 import axios from 'axios'
 import { useAuth } from '../../../store/Auth'
+import { useNavigate } from "react-router-dom";
 function Signup() {
+  const navigate = useNavigate();
     const{register, handleSubmit,reset,formState:{errors}}=useForm()
     const {setTokenInLocal} = useAuth()
     const onSubmit = (data)=>{
@@ -16,6 +18,7 @@ function Signup() {
         setTokenInLocal(res.data.token)
         reset()
         alert("user created")
+        navigate("/");
       })
       .catch((error)=>{
         console.log(error)
